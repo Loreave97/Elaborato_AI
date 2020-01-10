@@ -105,7 +105,7 @@ class Decision_Node:
 
 def build_tree(rows):
     gain, question = find_best_split(rows)
-    if gain < 0.03:
+    if gain < 0.005:
         return Leaf(rows)
     true_rows, false_rows = partition(rows, question)
     true_branch = build_tree(true_rows)
@@ -159,41 +159,56 @@ def test(training, testing):
     for row in testing:
         count_t += function(row[-1], classify(row, dt))
         count += 1
-    print("Test con 0% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
+    print("Test con 0% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
     testing_a = delete_data(testing, 10)
     count_t, count = 0, 0
     for row in testing_a:
         count_t += function(row[-1], classify(row, dt))
         count += 1
-    print("Test con 10% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
+    print("Test con 10% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
     testing_b = delete_data(testing, 20)
     count_t, count = 0, 0
     for row in testing_b:
         count_t += function(row[-1], classify(row, dt))
         count += 1
-    print("Test con 20% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
+    print("Test con 20% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
     testing_c = delete_data(testing, 50)
     count_t, count = 0, 0
     for row in testing_c:
         count_t += function(row[-1], classify(row, dt))
         count += 1
-    print("Test con 50% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
+    print("Test con 50% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
+
+
+def swap(a, b):
+    c = a
+    a = b
+    b = c
+    return a, b
+
+
+def balance(training, testing):
+    for row in training:
+        row[0], row[4] = swap(row[0], row[4])
+    for row in testing:
+        row[0], row[4] = swap(row[0], row[4])
 
 
 def main():
-    training = np.loadtxt(fname="chess_train.txt", dtype="str", delimiter=",")
-    testing = np.loadtxt(fname="chess_test.txt", dtype="str", delimiter=",")
-    test(training, testing)
+    training_a = np.loadtxt(fname="dataset/chess_train.txt", dtype="str", delimiter=",")
+    testing_a = np.loadtxt(fname="dataset/chess_test.txt", dtype="str", delimiter=",")
+    test(training_a, testing_a)
 
-    training = np.loadtxt(fname="tic_train.txt", dtype="str", delimiter=",")
-    testing = np.loadtxt(fname="tic_test.txt", dtype="str", delimiter=",")
-    test(training, testing)
+    training_b = np.loadtxt(fname="dataset/balance_train.txt", dtype="str", delimiter=",")
+    testing_b = np.loadtxt(fname="dataset/balance_test.txt", dtype="str", delimiter=",")
+    balance(training_b, testing_b)
+    test(training_b, testing_b)
 
-    training = np.loadtxt(fname="nursery_train.txt", dtype="str", delimiter=",")
-    testing = np.loadtxt(fname="nursery_test.txt", dtype="str", delimiter=",")
+    training = np.loadtxt(fname="dataset/nursery_train.txt", dtype="str", delimiter=",")
+    testing = np.loadtxt(fname="dataset/nursery_test.txt", dtype="str", delimiter=",")
     test(training, testing)
 
 
