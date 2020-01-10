@@ -141,20 +141,45 @@ def delete_data(rows, prob):
     return file_deleted
 
 
-def main():
-    train = np.loadtxt(fname="chess_train.txt", dtype="str", delimiter=",")
-    test = np.loadtxt(fname="chess_test.txt", dtype="str", delimiter=",")
-
-    dt = build_tree(train)
-#    for row in test:
-#        print("Actual: %s. Predicted: %s" %
-#              (row[-1], print_leaf(classify(row, dt))))
-
-    test = delete_data(test, 50)
-    print(test)
-    for row in test:
+def test(training, testing):
+    dt = build_tree(training)
+    for row in testing:
         print("Actual: %s. Predicted: %s" %
               (row[-1], print_leaf(classify(row, dt))))
+
+    testing_a = delete_data(testing)
+    for row in testing:
+        print("Actual: %s. Predicted: %s" %
+              (row[-1], print_leaf(classify(row, dt))))
+
+    testing_a = delete_data(testing)
+    for row in testing:
+        print("Actual: %s. Predicted: %s" %
+              (row[-1], print_leaf(classify(row, dt))))
+
+    testing_a = delete_data(testing)
+    for row in testing:
+        print("Actual: %s. Predicted: %s" %
+              (row[-1], print_leaf(classify(row, dt))))
+
+
+
+
+
+
+def main():
+    training = np.loadtxt(fname="chess_train.txt", dtype="str", delimiter=",")
+    testing = np.loadtxt(fname="chess_test.txt", dtype="str", delimiter=",")
+    test(training, testing)
+
+    training = np.loadtxt(fname="tic_train.txt", dtype="str", delimiter=",")
+    testing = np.loadtxt(fname="tic_test.txt", dtype="str", delimiter=",")
+    test(training, testing)
+
+    
+
+# RIPETERE ALTRE 2 VOLTE CON DATABASE CATEGORICI
+
 
 
 if __name__ == '__main__':
