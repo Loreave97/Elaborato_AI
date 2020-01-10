@@ -105,7 +105,7 @@ class Decision_Node:
 
 def build_tree(rows):
     gain, question = find_best_split(rows)
-    if gain < 0.05:
+    if gain < 0.03:
         return Leaf(rows)
     true_rows, false_rows = partition(rows, question)
     true_branch = build_tree(true_rows)
@@ -130,6 +130,18 @@ def print_leaf(counts):
     return probs
 
 
+def function(label, counts):
+    total = sum(counts.values()) * 1.0
+    probs = {}
+    for lbl in counts.keys():
+        probs[lbl] = int(counts[lbl] / total * 100)
+        if lbl == label:
+            if probs[lbl] > 74:
+                return int(1)
+            return int(0)
+    return 0
+
+
 def delete_data(rows, prob):
     file_deleted = rows
     n_features = len(rows[0]) - 1
@@ -143,28 +155,32 @@ def delete_data(rows, prob):
 
 def test(training, testing):
     dt = build_tree(training)
+    count_t, count = 0, 0
     for row in testing:
-        print("Actual: %s. Predicted: %s" %
-              (row[-1], print_leaf(classify(row, dt))))
+        count_t += function(row[-1], classify(row, dt))
+        count += 1
+    print("Test con 0% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
 
-    testing_a = delete_data(testing)
-    for row in testing:
-        print("Actual: %s. Predicted: %s" %
-              (row[-1], print_leaf(classify(row, dt))))
+    testing_a = delete_data(testing, 10)
+    count_t, count = 0, 0
+    for row in testing_a:
+        count_t += function(row[-1], classify(row, dt))
+        count += 1
+    print("Test con 10% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
 
-    testing_a = delete_data(testing)
-    for row in testing:
-        print("Actual: %s. Predicted: %s" %
-              (row[-1], print_leaf(classify(row, dt))))
+    testing_b = delete_data(testing, 20)
+    count_t, count = 0, 0
+    for row in testing_b:
+        count_t += function(row[-1], classify(row, dt))
+        count += 1
+    print("Test con 20% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
 
-    testing_a = delete_data(testing)
-    for row in testing:
-        print("Actual: %s. Predicted: %s" %
-              (row[-1], print_leaf(classify(row, dt))))
-
-
-
-
+    testing_c = delete_data(testing, 50)
+    count_t, count = 0, 0
+    for row in testing_c:
+        count_t += function(row[-1], classify(row, dt))
+        count += 1
+    print("Test con 50% di dati mancanti associa: ", int(count_t / count * 100), "% di dati corretti")
 
 
 def main():
@@ -176,10 +192,9 @@ def main():
     testing = np.loadtxt(fname="tic_test.txt", dtype="str", delimiter=",")
     test(training, testing)
 
-    
-
-# RIPETERE ALTRE 2 VOLTE CON DATABASE CATEGORICI
-
+    training = np.loadtxt(fname="nursery_train.txt", dtype="str", delimiter=",")
+    testing = np.loadtxt(fname="nursery_test.txt", dtype="str", delimiter=",")
+    test(training, testing)
 
 
 if __name__ == '__main__':
