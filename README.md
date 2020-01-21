@@ -2,7 +2,7 @@
 
 ### Esecuzione codice:
 Per eseguire correttamente il codice è necessario creare una cartella dataset nella quale scaricare i file .txt .
-Successivamente si deve creare un progetto sul proprio ambiente Python e importare [main.py] (main.py)
+Successivamente si deve creare un progetto sul proprio ambiente Python e importare [main.py](Elaborato_Ai/main.py)
 
 ### Descrizioni elaborato:
 Per avere descrizione riguardanti l'elaborato leggere mettere il qui e nome relazione
