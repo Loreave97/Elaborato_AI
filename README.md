@@ -5,10 +5,15 @@ Per eseguire correttamente il codice è necessario creare una cartella di nome d
 Successivamente si deve creare un progetto sul proprio ambiente Python e importare il file [main.py](main.py).
 
 ### Descrizioni elaborato:
-Per avere descrizione riguardanti l'elaborato leggere mettere il qui e nome relazione
+Per avere una descrizione approfondita riguardante l'elaborato leggere qui e nome relazione
 
 ### Fonti:
-Dataset, video Google e foglio prof. 
+Dataset: [chess](https://archive.ics.uci.edu/ml/datasets/Chess+(King-Rook+vs.+King-Pawn)) [nursery](https://archive.ics.uci.edu/ml/datasets/nursery) [balance](http://archive.ics.uci.edu/ml/datasets/balance+scale)
+Teoria: Mitchell, T. (1997). Machine Learning. McGraw-Hill. Chapter 3: Decision Trees. 
+Codice: https://www.youtube.com/watch?v=LDRbO9a6XPU&t=1s
+
+
+
 
 
 
