@@ -7,7 +7,7 @@ Successivamente si deve creare un progetto sul proprio ambiente Python e importa
 
 
 ### Descrizioni elaborato:
-Per avere una descrizione approfondita riguardante l'elaborato leggere (Relazione_AI.pdf)[qui]
+Per avere una descrizione approfondita riguardante l'elaborato leggere [qui](Relazione_AI.pdf)
 
 
 ### Fonti:
