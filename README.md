@@ -15,7 +15,7 @@ Dataset: [chess](https://archive.ics.uci.edu/ml/datasets/Chess+(King-Rook+vs.+Ki
 
 Teoria: Mitchell, T. (1997). Machine Learning. McGraw-Hill. Chapter 3: Decision Trees. 
 
-Codice: https://www.youtube.com/watch?v=LDRbO9a6XPU&t=1s
+Spunti codice: https://www.youtube.com/watch?v=LDRbO9a6XPU&t=1s
 
 
 
