@@ -21,26 +21,9 @@ class Question:
     def __init__(self, column, value):
         self.column = column
         self.value = value
-        self.prob = 0
-
-    def set_prob(self, prob):
-        self.prob = prob
-
-    def get_prob(self):
-        return self.prob
 
     def match(self, example):
         val = example[self.column]
-        return val == self.value
-
-    def match_classifier(self, example, prob):
-        val = example[self.column]
-        if val == "NaN":
-            p = ran.random()
-            if p < prob:
-                return True
-            else:
-                return False
         return val == self.value
 
 
@@ -51,7 +34,6 @@ def partition(rows, question):
             true_rows.append(row)
         else:
             false_rows.append(row)
-    question.set_prob(len(true_rows) / (len(true_rows) + len(false_rows)))
     return true_rows, false_rows
 
 
@@ -116,7 +98,7 @@ def build_tree(rows):
 def classify(row, node):
     if isinstance(node, Leaf):
         return node.predictions
-    if node.question.match_classifier(row, node.question.get_prob()):
+    if node.question.match(row):
         return classify(row, node.true_branch)
     else:
         return classify(row, node.false_branch)
@@ -153,6 +135,33 @@ def delete_data(rows, prob):
     return file_deleted
 
 
+def fill_data(rows):
+    for col in range(len(rows[0]) - 1):
+        counts = {}
+        tot = 0
+        P = {}
+        for row in rows:
+            attribute = row[col]
+            if attribute != "NaN":
+                if attribute not in counts:
+                    counts[attribute] = 0
+                counts[attribute] += 1
+                tot += 1
+        for attributes in counts:
+            P[attributes] = float(counts[attributes] / tot)
+        for row in rows:
+            attribute = row[col]
+            if attribute == "NaN":
+                p = ran.random()
+                prob = 0
+                for attributes in counts:
+                    prob += P[attributes]
+                    if p < prob:
+                        attribute = attributes
+                        break
+    return
+
+
 def test(training, testing):
     dt = build_tree(training)
     count_t, count = 0, 0
@@ -161,24 +170,30 @@ def test(training, testing):
         count += 1
     print("Test con 0% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
-    testing_a = delete_data(testing, 10)
+    training_a = delete_data(training, 10)
+    fill_data(training_a)
+    dt_a = build_tree(training_a)
     count_t, count = 0, 0
-    for row in testing_a:
-        count_t += function(row[-1], classify(row, dt))
+    for row in testing:
+        count_t += function(row[-1], classify(row, dt_a))
         count += 1
     print("Test con 10% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
-    testing_b = delete_data(testing, 20)
+    training_b = delete_data(training, 20)
+    fill_data(training_b)
+    dt_b = build_tree(training_b)
     count_t, count = 0, 0
-    for row in testing_b:
-        count_t += function(row[-1], classify(row, dt))
+    for row in testing:
+        count_t += function(row[-1], classify(row, dt_b))
         count += 1
     print("Test con 20% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
-    testing_c = delete_data(testing, 50)
+    training_c = delete_data(training, 50)
+    fill_data(training_c)
+    dt_c = build_tree(training_c)
     count_t, count = 0, 0
-    for row in testing_c:
-        count_t += function(row[-1], classify(row, dt))
+    for row in testing:
+        count_t += function(row[-1], classify(row, dt_c))
         count += 1
     print("Test con 50% di dati mancanti associa:", int(count_t / count * 100), "% di dati corretti")
 
