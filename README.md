@@ -18,7 +18,6 @@ Teoria: Mitchell, T. (1997). Machine Learning. McGraw-Hill. Chapter 3: Decision 
 Spunti codice: https://www.youtube.com/watch?v=LDRbO9a6XPU&t=1s
 
 
-#English Readme
 
 
 
